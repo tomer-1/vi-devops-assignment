@@ -26,7 +26,10 @@ async function connectToDatabase() {
 
 async function main() {
     const {counterCollection, orderCollection} = await connectToDatabase();
-
+    // add health check to the application
+    app.get('/health-check',(req,res)=> {
+        res.send ("Health check passed");
+    });
     app.get("/orders", async (req, res) => {
         const orders = await orderCollection.find({}).toArray();
         res.json(orders);

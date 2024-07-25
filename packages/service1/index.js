@@ -29,7 +29,10 @@ async function connectToDatabase() {
 
 async function main() {
     const {counterCollection, orderCollection} = await connectToDatabase();
-
+    // add health check to the application
+    app.get('/health-check',(req,res)=> {
+        res.send ("Health check passed");
+    });
     app.delete("/orders/:id", async (req, res) => {
         await orderCollection.deleteOne({_id: Number(req.params.id)});
         res.send(`Order number ${req.params.id} deleted successfully.`);
